@@ -1,39 +1,17 @@
-const express = require('express')
-const mongoose = require('mongoose');
-const User = require('./models/user')
-const app = express()
+ const config =  require('./config/config')
+ const app =  require('./express')
+ const mongoose =  require('mongoose')
 
-
-
-mongoose.connect('mongodb://localhost/tranningsocialmedia', {
-  useNewUrlParser: true
-})
-.then(() =>{
-  console.log('CONNECTED')
-})
-.catch(err =>{
-  console.log('CONNECT FAIL')
-})
-
-
-let user = new User({
-  email:"HoangTheQuyen@gmail.com",
-  password:"123456789"
-})
-
-user
-.save()
-.then(() =>{
-  console.log('SUCCESSFULLY')
-})
-.catch(err =>{
-  console.log(err);
-  console.log('FAIL')
-})
-
-
-app.get('/', function (req, res) {
-  res.send('Hello World')
-})
-
-app.listen(3000)
+ mongoose.Promise = global.Promise
+ mongoose.connect(config.mongoUri)
+ mongoose.connection.on('error', () => {
+     throw new Error(`unable to connect to database: ${mongoUri}`)
+ })
+ 
+ app.listen(config.port, (err) => {
+     
+     if (err) {
+         console.log(err)
+     }
+     console.info('Server started on port %s.', config.port)
+ })
