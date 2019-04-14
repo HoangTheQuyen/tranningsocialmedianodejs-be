@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 
 const userRoutes = require('./routes/user.routes')
-// const authRoutes = require('./routes/auth.routes')
+const authRoutes = require('./routes/auth.routes')
 const Template = require('./template')
 
 const app = express()
@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 
 
 app.use('/', userRoutes)
-// app.use('/', authRoutes)
+app.use('/', authRoutes)
 
 // app.use((err, req, res, next) => {
 //     if (err.name === 'UnauthorizedError') {

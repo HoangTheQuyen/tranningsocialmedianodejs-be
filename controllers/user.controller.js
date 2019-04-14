@@ -12,6 +12,7 @@ module.exports = {
 
             .catch(err => {
                 res.status(400).json({ message: "trungb roi, check lai" })
+
             })
     },
     list: (req, res) => {
@@ -24,11 +25,23 @@ module.exports = {
     },
 
     userByID: (req, res, next, id) => {
-
+        
     },
 
     read: (req, res) => {
-
+        console.log(req.params.userId)
+        User.findOne({_id: req.params.userId}).exec()
+        .then(user => {
+            res.status(200).json({user:{
+                _id:user._id,
+                name:user.name,
+                email:user.email
+            }})
+        .catch(err =>{
+            res.status(400).json(err)
+        })
+        
+        })
     },
 
     update: (req, res, next) => {
@@ -36,7 +49,13 @@ module.exports = {
         user.update()
         user.save()
         .then(users => {
-            res.status(200).json(users)
+            res.status(200).json({user:{
+                _id:user._id,
+                name:user.name,
+                email:user.email
+            }}
+
+            )
         })
         .catch(err =>{
             res.status(400).json(err)
