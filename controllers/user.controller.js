@@ -7,7 +7,7 @@ module.exports = {
         const user = new User(req.body)
         user.save()
             .then((user) => {
-                res.status(200).json({ message: 'create sucessfully' })
+                res.status(200).json({ message: 'create successfully' })
             })
 
             .catch(err => {
@@ -32,11 +32,26 @@ module.exports = {
     },
 
     update: (req, res, next) => {
-
+       const user = new User(req.body)
+        user.update()
+        user.save()
+        .then(users => {
+            res.status(200).json(users)
+        })
+        .catch(err =>{
+            res.status(400).json(err)
+        })
     },
 
     remove: (req, res, next) => {
-
+        console.log(req.params.userId)
+       User.findByIdAndRemove(req.params.userId).exec()
+       .then(() => {
+           res.status(200).json({message:"delete successfully"})
+        .catch(err => {
+            res.status(400).json({message:"can not delete"})
+        })
+       })
     }
 }
 
